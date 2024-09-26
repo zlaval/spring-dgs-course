@@ -1,0 +1,12 @@
+type Query{
+
+}
+
+enum SortDirection{
+    ASC, DESC
+}
+
+input SortField{
+    name: String!
+    direction: SortDirection!
+}

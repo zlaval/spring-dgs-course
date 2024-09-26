@@ -1,0 +1,32 @@
+extend type Query {
+    users(offset: Int, limit: Int, filter: UserFilter, sort : UserSort): UserPageable!
+    user(id: ID!): User
+}
+
+type UserPageable{
+    items: [User!]!
+    offset: Int!
+    limit: Int!
+    total: Int!
+}
+
+input UserFilter{
+    name: String
+    email: [String!]
+    sex: Sex
+}
+
+enum Sex{
+    MALE, FEMALE
+}
+
+type User{
+    id: ID!
+    name: String!
+    email: String!
+    sex: Sex
+}
+
+input UserSort{
+    fields: [SortField!]!
+}
