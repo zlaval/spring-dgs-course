@@ -2,7 +2,7 @@
 GRAPHQL http://localhost:8080/graphql
 
 query {
-    users(offset: 0, limit: 10 ) {
+    users(filter: {sex: MALE} ) {
         items {
             id
             name
