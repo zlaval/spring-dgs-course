@@ -1,6 +1,7 @@
 package com.zlrx.graphql.user
 
 import com.netflix.graphql.dgs.DgsComponent
+import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
 import com.zlrx.graphql.codegen.types.*
@@ -49,4 +50,10 @@ class UserDataFetcher(
 
     @DgsQuery
     fun user(id: String): User? = repository.findById(id)
+
+    @DgsMutation
+    fun saveUser(id: String?, user: UserInput): User = repository.save(id, user)
+
+    @DgsMutation
+    fun deleteUser(id: String): Boolean = repository.delete(id)
 }

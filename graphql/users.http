@@ -2,7 +2,7 @@
 GRAPHQL http://localhost:8080/graphql
 
 query {
-    users(offset: 10, limit: 10 ) {
+    users(offset: 0, limit: 10 ) {
         items {
             id
             name
@@ -22,4 +22,33 @@ query {
         name
         email
     }
+}
+
+### Save user
+GRAPHQL http://localhost:8080/graphql
+
+mutation {
+    saveUser(user: {name: "Jack Kotlin", email: "jk@gmail.com", sex: MALE}){
+        id
+        name
+        __typename
+    }
+}
+
+### Update user
+GRAPHQL http://localhost:8080/graphql
+
+mutation {
+    saveUser(id: "1", user: {name: "Joe Doe JR", email: "joe@test.com", sex: MALE}){
+        id
+        name
+        __typename
+    }
+}
+
+### delete user
+GRAPHQL http://localhost:8080/graphql
+
+mutation {
+    deleteUser(id: "3                     ")
 }
