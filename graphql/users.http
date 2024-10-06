@@ -28,7 +28,7 @@ query {
 GRAPHQL http://localhost:8080/graphql
 
 mutation {
-    saveUser(user: {name: "Jack Kotlin", email: "jk@gmail.com", sex: MALE}){
+    saveUser(user: {name: "Jack Kotlin", email: "jk@gmail.com", sex: FEMALE, personId: "XX123"}){
         id
         name
         __typename

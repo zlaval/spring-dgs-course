@@ -2,3 +2,4 @@ directive @Size(min : Int = 0, max : Int = 2147483647, message : String = "graph
 directive @ContainerSize(min : Int = 0, max : Int = 2147483647, message : String = "graphql.validation.ContainerSize.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 directive @Max(value : Int! = 2147483647, message : String = "graphql.validation.Max.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 directive @Min(value : Int! = 0, message : String = "graphql.validation.Min.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+directive @UserInput(personIdNullable: Boolean! = true, message: String = "graphql.validation.UserInput.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION

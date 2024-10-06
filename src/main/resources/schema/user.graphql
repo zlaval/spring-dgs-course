@@ -4,7 +4,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    saveUser(id: ID, user: UserInput!): User!
+    saveUser(id: ID, user: UserInput! @UserInput(personIdNullable: false)): User!
     deleteUser(id: ID!): Boolean
 }
 
@@ -30,12 +30,14 @@ type User{
     name: String!
     email: String!
     sex: Sex
+    personId: String
 }
 
 input UserInput{
     name: String! @Size(max: 255)
     email: String! @Size(min: 10, max: 255)
     sex: Sex
+    personId: String
 }
 
 input UserSort{
