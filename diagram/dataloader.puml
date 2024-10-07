@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+client -> framework: Query for [user]
+framework -> UserDataLoader: call users query method
+UserDataLoader -> framework: return list of users
+
+group Concurrent load
+framework -> UserDataLoader: call address method with user[0]
+framework -> UserDataLoader: call address method with user[1]
+UserDataLoader --> framework: return user[0] address id
+framework -> UserDataLoader: call address method with user[n]
+UserDataLoader --> framework: return user[1] address id
+UserDataLoader --> framework: return user[n] address id
+end
+framework -> AddressDataLoader: call load with the list of address ids
+AddressDataLoader -> framework: return addresses for each address id in a map
+
+framework -> framework: bind each  address to the user
+
+framework -> client: return [user] with address
+
+@enduml
