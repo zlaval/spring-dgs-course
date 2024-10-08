@@ -1,12 +1,13 @@
 package com.zlrx.graphql.user
 
-import com.netflix.graphql.dgs.DgsComponent
-import com.netflix.graphql.dgs.DgsMutation
-import com.netflix.graphql.dgs.DgsQuery
-import com.netflix.graphql.dgs.InputArgument
+import com.netflix.graphql.dgs.*
+import com.zlrx.graphql.address.AddressDataLoader
+import com.zlrx.graphql.codegen.DgsConstants
 import com.zlrx.graphql.codegen.types.*
+import org.dataloader.DataLoader
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import java.util.concurrent.CompletableFuture
 
 @DgsComponent
 class UserDataFetcher(
@@ -56,4 +57,16 @@ class UserDataFetcher(
 
     @DgsMutation
     fun deleteUser(id: String): Boolean = repository.delete(id)
+
+    @DgsData(parentType = DgsConstants.USER.TYPE_NAME)
+    fun address(dfe: DgsDataFetchingEnvironment): CompletableFuture<Address> {
+        val dataLoader: DataLoader<String, Address> = dfe.getDataLoader(AddressDataLoader::class.java)
+        val id = dfe.getSource<User>()?.addressId
+        return if (id == null) {
+            CompletableFuture.completedFuture(null)
+        } else {
+            dataLoader.load(id)
+        }
+    }
+
 }

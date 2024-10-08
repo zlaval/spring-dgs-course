@@ -32,6 +32,9 @@ type User{
     sex: Sex
     personId: String
     createdAt: Instant!
+
+    addressId: ID
+    address: Address
 }
 
 input UserInput{

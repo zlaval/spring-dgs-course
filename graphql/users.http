@@ -2,14 +2,18 @@
 GRAPHQL http://localhost:8080/graphql
 
 query {
-    users(filter: {sex: MALE} ) {
+    users {
         items {
             id
             name
             email
-            sex
-            createdAt
-            __typename
+            address {
+                id
+                street
+                city
+                zip
+                houseNumber
+            }
         }
     }
 }

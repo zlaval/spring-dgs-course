@@ -136,12 +136,135 @@ data class UserInput(
 )
 ```
 
-//TODO
+### Embedded types
 
-* list - null field null content
-* embedded type
-* comments - documentation
-* directive
-* interface
-* union
-* scalar
+Types can be composed
+
+```graphql
+type Address{
+    zip: Int!
+    city: String!
+    street: String!
+    houseNumber: Int!
+}
+
+type User{
+    id: ID!
+    address: Address
+}
+```
+
+Source code
+
+```kotlin
+data class Address(
+    @JsonProperty("zip")
+    val zip: Int,
+    @JsonProperty("city")
+    val city: String,
+    @JsonProperty("street")
+    val street: String,
+    @JsonProperty("houseNumber")
+    val houseNumber: Int,
+)
+
+data class User(
+    @JsonProperty("id")
+    val id: String,
+    val address: Address? = null,
+)
+```
+
+### Lists
+
+Both the list and the list elements can be marked as non-nullable
+
+```graphql
+type User{
+    friends: [User!]!
+}
+```
+
+Source code
+
+```kotlin
+data class User(
+    val friends: List<User>,
+)
+```
+
+### Comments
+
+Fields and method might commented.   
+The comments are generated into the documentation
+
+```graphql
+input UserInput{
+    """ Full Name """
+    name: String!
+    """ Email address """
+    email: String!
+}
+```
+
+### Directives
+
+Directive decorates the schema.   
+The server can read them and perform custom logics, like input validation, data manipulation...  
+DSG has many built in validator directives
+
+```graphql
+directive @Min(value : Int! = 0, message : String = "graphql.validation.Min.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+type User{
+    id: ID!
+    age: Int! @Min(value: 18) @Max(value: 99)
+}
+```
+
+### Interface
+
+Specifies a set of fields that multiple types can include
+
+```graphql
+interface Vehicle{
+    producer: String
+    type: String!
+    enginePower: Int!
+}
+
+type Car implements Vehicle{
+    producer: String
+    type: String!
+    enginePower: Int!
+
+    wheels: Int!
+}
+```
+
+### Union
+
+Used for multiple return type.  
+Similar to interface without common fields
+
+```graphql
+type Movie{
+    title: String!
+    length: Int!
+}
+
+type Series{
+    title: String!
+    season: Int!
+}
+
+union Film = Movie | Series
+```
+
+### Custom scalar
+
+Custom scalar can be defined and implemented
+
+```graphql
+scalar Instant
+```
