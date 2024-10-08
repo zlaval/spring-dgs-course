@@ -3,20 +3,28 @@ GRAPHQL http://localhost:8080/graphql
 query {
     vehicles {
         enginePower
-        type
-        producer
-        ... on Car{
-            wheels
-            __typename
-        }
-        ... on AirPlane{
-            engineCount
-            __typename
-        }
-        ... on Ship{
-            dwt
-            __typename
-        }
+        ... VEHICLE
         __typename
     }
+}
+
+fragment VEHICLE on Vehicle{
+    type
+    producer
+    ... on Car{
+        wheels
+        __typename
+    }
+    ... on AirPlane{
+        ... AIRPLANE
+        __typename
+    }
+    ... on Ship{
+        dwt
+        __typename
+    }
+}
+
+fragment AIRPLANE on AirPlane{
+    engineCount
 }
