@@ -31,6 +31,7 @@ type User{
     email: String!
     sex: Sex
     personId: String
+    createdAt: Instant!
 }
 
 input UserInput{

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.support.PageableExecutionUtils
 import org.springframework.stereotype.Component
+import java.time.Instant
 import java.util.*
 
 
@@ -40,7 +41,8 @@ class UserRepository {
                 id = UUID.randomUUID().toString(),
                 name = input.name,
                 email = input.email,
-                sex = input.sex
+                sex = input.sex,
+                createdAt = Instant.now(),
             )
         } else {
             val u = UserDB.users[id] ?: throw RuntimeException("User with id $id not found")
