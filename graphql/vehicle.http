@@ -1,0 +1,22 @@
+GRAPHQL http://localhost:8080/graphql
+
+query {
+    vehicles {
+        enginePower
+        type
+        producer
+        ... on Car{
+            wheels
+            __typename
+        }
+        ... on AirPlane{
+            engineCount
+            __typename
+        }
+        ... on Ship{
+            dwt
+            __typename
+        }
+        __typename
+    }
+}

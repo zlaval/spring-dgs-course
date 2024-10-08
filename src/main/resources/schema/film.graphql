@@ -1,0 +1,11 @@
+type Movie{
+    title: String!
+    length: Int!
+}
+
+type Series{
+    title: String!
+    season: Int!
+}
+
+union Film = Movie | Series

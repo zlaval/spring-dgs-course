@@ -1,0 +1,33 @@
+extend type Query {
+    vehicles: [Vehicle!]!
+}
+
+interface Vehicle{
+    producer: String
+    type: String!
+    enginePower: Int!
+}
+
+type Car implements Vehicle{
+    producer: String
+    type: String!
+    enginePower: Int!
+
+    wheels: Int!
+}
+
+type AirPlane implements Vehicle{
+    producer: String
+    type: String!
+    enginePower: Int!
+
+    engineCount: Int!
+}
+
+type Ship implements Vehicle{
+    producer: String
+    type: String!
+    enginePower: Int!
+
+    dwt: Int!
+}
