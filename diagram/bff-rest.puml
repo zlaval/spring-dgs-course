@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> BFF: /mobile/users-with-address
+
+group collect data
+BFF -> UserService: /api/v1/users
+UserService --> BFF: user list
+
+BFF->BFF: Collect address ids from users
+
+BFF -> AddressService: /api/v1/addresses?ids=1,2...n
+AddressService --> BFF: addresses
+
+BFF->BFF: Combine users and addresses
+end
+
+BFF ---> Client: user list with addresses
+
+
+@enduml

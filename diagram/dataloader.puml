@@ -11,8 +11,9 @@ group Concurrent load
 framework -> UserDataLoader: call address method with user[0]
 framework -> UserDataLoader: call address method with user[1]
 UserDataLoader --> framework: return user[0] address id
-framework -> UserDataLoader: call address method with user[n]
 UserDataLoader --> framework: return user[1] address id
+== Repetition ==
+framework -> UserDataLoader: call address method with user[n]
 UserDataLoader --> framework: return user[n] address id
 end
 framework -> AddressDataLoader: call load with the list of address ids

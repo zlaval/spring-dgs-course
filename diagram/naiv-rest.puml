@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+
+Client -> Server: /api/v1/users
+activate Client
+Server --> Client: user list
+
+group load address for users
+Client -> Server: /api/v1/users/1/address
+Server --> Client: address of user 1
+Client -> Server: /api/v1/users/2/address
+Server --> Client: address of user 2
+== Repetition ==
+Client -> Server: /api/v1/users/n-1/address
+Server --> Client: address of user n-1
+Client -> Server: /api/v1/users/n/address
+Server --> Client: address of user n
+deactivate Client
+end
+
+
+@enduml
