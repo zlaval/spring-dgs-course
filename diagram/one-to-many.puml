@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+hide circle
+
+
+entity "User" as user{
+ ** id: String **
+ name: String
+ ...
+}
+
+entity "Vehicle" as vehicle{
+    id: String
+    producer: String
+    ...
+    ** userId: String <<FK>> **
+}
+
+user }|-- vehicle
+@enduml

@@ -4,6 +4,7 @@ import com.netflix.graphql.dgs.*
 import com.zlrx.graphql.address.AddressDataLoader
 import com.zlrx.graphql.codegen.DgsConstants
 import com.zlrx.graphql.codegen.types.*
+import com.zlrx.graphql.vehicles.VehicleDataLoader
 import org.dataloader.DataLoader
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -67,6 +68,13 @@ class UserDataFetcher(
         } else {
             dataLoader.load(id)
         }
+    }
+
+    @DgsData(parentType = DgsConstants.USER.TYPE_NAME, field = "vehicles")
+    fun cars(dfe: DgsDataFetchingEnvironment): CompletableFuture<List<Vehicle>> {
+        val dataLoader: DataLoader<String, List<Vehicle>> = dfe.getDataLoader(VehicleDataLoader::class.java)
+        val id = dfe.getSource<User>()?.id
+        return dataLoader.load(id)
     }
 
 }

@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+hide circle
+
+entity "User" as user1{
+ ** id: String **
+ name: String
+ ...
+}
+
+entity "UserToUser" as joinTable{
+    userId: String <<FK>>
+    friendId: String <<FK>>
+}
+
+entity "User" as user2{
+ ** id: String **
+ name: String
+ ...
+}
+
+user1 }|-- joinTable
+joinTable }|-- user2
+
+@enduml
