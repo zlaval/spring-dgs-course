@@ -36,6 +36,9 @@ type User{
     addressId: ID
     address: Address
     vehicles: [Vehicle!]
+
+    friendIds: [String!]
+    friends: [User!]
 }
 
 input UserInput{

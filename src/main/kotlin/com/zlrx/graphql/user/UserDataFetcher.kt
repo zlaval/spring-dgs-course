@@ -6,9 +6,12 @@ import com.zlrx.graphql.codegen.DgsConstants
 import com.zlrx.graphql.codegen.types.*
 import com.zlrx.graphql.vehicles.VehicleDataLoader
 import org.dataloader.DataLoader
+import org.dataloader.MappedBatchLoader
+import org.springframework.core.task.AsyncTaskExecutor
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletionStage
 
 @DgsComponent
 class UserDataFetcher(
@@ -77,4 +80,29 @@ class UserDataFetcher(
         return dataLoader.load(id)
     }
 
+    @DgsData(parentType = DgsConstants.USER.TYPE_NAME)
+    fun friends(dfe: DgsDataFetchingEnvironment): CompletableFuture<List<User>> {
+        val dataLoader: DataLoader<List<String>, List<User>> = dfe.getDataLoader(FriendsDataLoader::class.java)
+        val ids = dfe.getSource<User>()?.friendIds ?: return CompletableFuture.completedFuture(emptyList())
+        return dataLoader.load(ids)
+    }
+
+}
+
+@DgsDataLoader
+class FriendsDataLoader(
+    private val repository: UserRepository,
+    private val dgsTaskExecutor: AsyncTaskExecutor
+
+) : MappedBatchLoader<List<String>, List<User>> {
+    override fun load(friendIdsList: Set<List<String>>): CompletionStage<Map<List<String>, List<User>>> =
+        CompletableFuture.supplyAsync({
+            val users = repository.usersByIds(friendIdsList.flatten().distinct()).associateBy { it.id }
+
+            friendIdsList.associateWith { friendIds ->
+                friendIds.mapNotNull { id ->
+                    users[id]
+                }
+            }
+        }, dgsTaskExecutor)
 }

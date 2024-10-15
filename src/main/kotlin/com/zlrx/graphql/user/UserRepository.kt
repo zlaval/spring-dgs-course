@@ -14,6 +14,10 @@ import java.util.*
 @Component
 class UserRepository {
 
+    fun usersByIds(userIds: List<String>): List<User> = UserDB.users.filter {
+        userIds.contains(it.key)
+    }.values.toList()
+
     fun users(filter: UserFilter?, pr: PageRequest): Page<User> {
         val filteredUsers = if (filter == null) {
             UserDB.users.values.toList()

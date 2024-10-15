@@ -22,6 +22,20 @@ query {
                     wheels
                 }
             }
+            friends {
+                id
+                name
+                email
+                friends {
+                    id
+                    name
+                    friends {
+                        id
+                        name
+                        email
+                    }
+                }
+            }
         }
     }
 }
