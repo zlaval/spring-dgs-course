@@ -7,9 +7,12 @@ import com.zlrx.graphql.codegen.types.*
 import com.zlrx.graphql.vehicles.VehicleDataLoader
 import org.dataloader.DataLoader
 import org.dataloader.MappedBatchLoader
+import org.slf4j.LoggerFactory
 import org.springframework.core.task.AsyncTaskExecutor
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.web.bind.annotation.CookieValue
+import org.springframework.web.bind.annotation.RequestHeader
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletionStage
 
@@ -17,6 +20,8 @@ import java.util.concurrent.CompletionStage
 class UserDataFetcher(
     private val repository: UserRepository
 ) {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @DgsQuery
     fun users(
@@ -54,7 +59,15 @@ class UserDataFetcher(
     }
 
     @DgsQuery
-    fun user(id: String): User? = repository.findById(id)
+    fun user(
+        @RequestHeader(required = false) headers: Map<String, String>?,
+        @RequestHeader(name = "x-first-header") firstHeader: String?,
+        @CookieValue alpha: String,
+        id: String
+    ): User? {
+        logger.info(alpha)
+        return repository.findById(id)
+    }
 
     @DgsMutation
     fun saveUser(id: String?, user: UserInput): User = repository.save(id, user)

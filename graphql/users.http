@@ -42,6 +42,9 @@ query {
 
 ### Query by ID
 GRAPHQL http://localhost:8080/graphql
+x-first-header: one
+x-second-header: two
+Cookie: alpha=orange; beta=blue
 
 query {
     user(id : "10"){
